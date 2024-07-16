@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.urls import reverse
 from .utils import generate_series, generate_id
 
 class Card(models.Model):
@@ -16,7 +17,10 @@ class Card(models.Model):
     issued = models.DateTimeField(auto_now_add=True)
     expires = models.DateTimeField(null=True, blank=True)
     last_used = models.DateTimeField(null=True, blank=True)
-    amount = models.FloatField(help_text="The amount of bonus points granted to a customer")
+    amount = models.FloatField(
+        default=0,
+        help_text="The amount of bonus points granted to a customer"
+    )
     
     CARD_STATUS = (
         ('n', 'Not activated'),
@@ -32,6 +36,13 @@ class Card(models.Model):
         help_text="Status of the card",
     )
     
+    class Meta:
+        ordering = ['series', 'id_number']
+    
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.series} {self.id_number}'
+    
     def check_if_expired(self):
         """Determines if the card is expired based on expiration date and current date.
         If card is expired, changes the status of the card to 'expired' and returns True."""
@@ -39,4 +50,8 @@ class Card(models.Model):
             self.status = 'e'
             self.save()
         return self.status == 'e'
+
+    def get_absolute_url(self):
+        """Returns the URL to access a particular card instance."""
+        return reverse('card-detail', args=[str(self.id_number)])
 

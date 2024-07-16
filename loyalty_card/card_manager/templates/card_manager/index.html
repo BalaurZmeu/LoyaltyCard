@@ -1,5 +1,20 @@
 {% extends "main.html" %}
 
 {% block content %}
-<p>This is the index page of card manager.</p>
-{% endblock %}
+
+<p>This is a web application for managing a loyalty card database.</p>
+
+<p>Only logged in users can use the service.</p>
+
+<pre>
+Application functionality:
+
+- List of cards with fields: series, number, issuance date, expiration date, status
+- Search by these same fields
+- View card profile with purchase history
+- Activation/deactivation of card
+- Deletion of card
+- Card generator
+</pre>
+
+{% endblock content %}
