@@ -6,7 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     """View function for the home page of site."""
-    return render(request, 'index.html', context=context)
+    context = {}
+    return render(request, 'card_manager/index.html', context=context)
 
 
 class CardListView(LoginRequiredMixin, generic.ListView):
