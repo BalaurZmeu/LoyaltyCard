@@ -1,17 +1,26 @@
 {% extends "main.html" %}
 
+{% load static %}
+
 {% block content %}
   <h1>Card List</h1>
   {% if card_list %}
-    <ul>
+    <table>
+      <tr>
+        <th>Series/Number:</th>
+        <th>Issued:</th>
+        <th>Expires:</th>
+        <th>Status:</th>
+      </tr>
       {% for card in card_list %}
-        <li>
-          <a href="{{ card.get_absolute_url }}">
-            {{ card.id_number }}
-          </a>
-        </li>
+      <tr>  
+        <td><a href="{{ card.get_absolute_url }}">{{ card }}</a></td>
+        <td>{{ card.issued }}</td>
+        <td>{{ card.expires }}</td>
+        <td>{{ card.get_status_display }}</td>
+      </tr>
       {% endfor %}
-    </ul>
+    </table>
   {% else %}
     <p>There are no cards.</p>
   {% endif %}

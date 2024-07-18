@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<form action="" method="post">
+  <input list="expiration">
+  <datalist id="expiration">
+    <option value="1 month">
+    <option value="6 months">
+    <option value="12 months">
+  </datalist>
+</form> 
+
+{% endblock %}
