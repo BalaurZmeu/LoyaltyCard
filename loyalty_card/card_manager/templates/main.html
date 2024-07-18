@@ -24,42 +24,42 @@
       <div class="col-sm-2 mt-4">
         
         {% block sidebar %}
-          <ul class="sidebar-nav">
+          <div class="sidebar-nav d-grid gap-2 d-md-block">
             
             {% if user.is_authenticated %}
-              <li>User: {{ user.get_username }}</li>
-              
-              <li>
+              <span>User: {{ user.get_username }}</span>
+                
                 <form id="login_form" method="post"
                 action="{% url 'logout' %}?next={{ request.path }}">
                   {% csrf_token %}
-                  <a href="javascript:{}"
+                  <a class="btn btn-outline-primary btn-block mb-2" href="javascript:{}"
                   onclick="document.getElementById('login_form').
                   submit(); return false;">
                     Logout
                   </a>
                 </form>
-              </li>              
-              
-              <li>
-                <a href="{% url 'card-list' %}">
+
+                <a class="btn btn-outline-primary btn-block" href="{% url 'card-list' %}">
                   Card List
                 </a>
-              </li>
 
-              <li>
-                <a href="{% url 'generator' %}">
+                <a class="btn btn-outline-primary btn-block" href="{% url 'generator' %}">
                   Generator
                 </a>
-              </li>
 
             {% else %}
-              <li>
-                <a href="{% url 'login' %}">Login</a>
-              </li>
+              
+              <a class="btn btn-outline-primary btn-block" href="{% url 'login' %}">
+                Login
+              </a>
+              
+              <a class="btn btn-outline-primary btn-block mb-2" href="{% url 'index' %}">
+                Home
+              </a>
+              
             {% endif %}
             
-          </ul>
+          </div>
         {% endblock sidebar %}
       </div>
       
@@ -84,7 +84,7 @@
                 {% if page_obj.has_next %}
                   <a href="{{ request.path }}?page={{ page_obj.next_page_number }}"
                     class="btn btn-outline-primary">
-                      next
+                      next page
                   </a>
                 {% endif %}
               </span>
