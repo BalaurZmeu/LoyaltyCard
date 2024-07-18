@@ -4,6 +4,12 @@
 
 {% block content %}
   <h1>Card List</h1>
+
+  <form method="get" class="mb-4">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+  </form>
+
   {% if card_list %}
     <table>
       <tr>
@@ -25,3 +31,4 @@
     <p>There are no cards.</p>
   {% endif %}
 {% endblock %}
+

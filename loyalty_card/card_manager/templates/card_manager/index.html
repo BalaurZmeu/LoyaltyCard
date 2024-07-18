@@ -2,19 +2,20 @@
 
 {% block content %}
 
-<p>This is a web application for managing a loyalty card database.</p>
+<div class="index" >
 
-<p>Only logged in users can use the service.</p>
+<p class="text-danger">Only logged in users can use the service.</p>
+<p>Web application for managing a loyalty card database.</p>
+<p>Application functionality:</p>
+<ul>
+<li>List of cards with fields: series, number, issuance date, expiration date, status</li>
+<li>Search by these same fields</li>
+<li>View card profile with purchase history</li>
+<li>Activation/deactivation of card</li>
+<li>Deletion of card</li>
+<li>Card generator</li>
+</ul>
 
-<pre>
-Application functionality:
-
-- List of cards with fields: series, number, issuance date, expiration date, status
-- Search by these same fields
-- View card profile with purchase history
-- Activation/deactivation of card
-- Deletion of card
-- Card generator
-</pre>
+</div>
 
 {% endblock content %}
