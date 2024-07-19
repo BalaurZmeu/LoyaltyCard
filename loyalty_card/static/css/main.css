@@ -15,3 +15,51 @@ span {
   font-weight: bold;
 }
 
+.resp {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.resp td, .resp th{
+  padding: 4px 15px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.resp th {
+  background-color: #0275d8;
+  color: #ffffff;
+}
+
+.resp tbody tr:nth-child(even) {
+  background-color: #d1e8f5;
+}
+
+@media (max-width: 1000px) {
+
+.resp thead {
+  display: none;
+}
+
+.resp, .resp tbody, .resp tr, .resp td {
+  display:block;
+  width:100%;
+}
+
+.resp td {
+  padding-left: 40%;
+  text-align: left;
+  position:relative;
+}
+
+.resp td::before {
+  content: attr(data-label);
+  position: absolute;
+  left: 0;
+  width: 40%;
+  padding-left: 15px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;
+}
+}

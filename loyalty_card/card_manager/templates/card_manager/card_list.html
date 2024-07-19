@@ -11,21 +11,25 @@
   </form>
 
   {% if card_list %}
-    <table>
-      <tr>
+    <table class="resp">
+      <thead>
         <th>Series/Number:</th>
         <th>Issued:</th>
         <th>Expires:</th>
         <th>Status:</th>
-      </tr>
+      </thead>
+      <tbody>
+      
       {% for card in card_list %}
-      <tr>  
-        <td><a href="{{ card.get_absolute_url }}">{{ card }}</a></td>
-        <td>{{ card.issued }}</td>
-        <td>{{ card.expires }}</td>
-        <td>{{ card.get_status_display }}</td>
-      </tr>
+        <tr>  
+          <td data-label="Series/Number:"><a href="{{ card.get_absolute_url }}">{{ card }}</a></td>
+          <td data-label="Issued:">{{ card.issued }}</td>
+          <td data-label="Expires:">{{ card.expires }}</td>
+          <td data-label="Status:">{{ card.get_status_display }}</td>
+        </tr>
       {% endfor %}
+      
+      </tbody>
     </table>
   {% else %}
     <p>There are no cards.</p>
