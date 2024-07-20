@@ -19,12 +19,20 @@
   </table>
   
   <div class="mt-4">
-      <h4>Purchase History:</h4>
-      <!--
-      {% for purchase in card.purchase_set.all %}
-
-      {% endfor %}
-      -->
+    <h4>Purchase History:</h4>
+    {% if purchase_list %}
+      <ul>
+      
+        {% for purchase in purchase_list %}
+          <li>
+            <strong>Purchase date:</strong> {{ purchase.purchase_date }}
+            <strong>Amount:</strong> <span class="text-success">{{ purchase.amount }}</span></li>
+        {% endfor %}
+    
+    </ul>
+  {% else %}
+    <p>No purchases found.</p>
+  {% endif %}
   </div>
 {% endblock content %}
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Card
+from .models import Card, Purchase
 from .forms import CardSearchForm
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -43,6 +43,11 @@ class CardListView(LoginRequiredMixin, generic.ListView):
 class CardDetailView(LoginRequiredMixin, generic.DetailView):
     """Class-based view for the specific card."""
     model = Card
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['purchase_list'] = Purchase.objects.filter(card=self.object)
+        return context
 
 
 @login_required

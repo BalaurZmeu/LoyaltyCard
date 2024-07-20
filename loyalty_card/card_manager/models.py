@@ -1,7 +1,12 @@
 from django.db import models
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.urls import reverse
 from .utils import generate_series, generate_id
+
+
+def default_expiry():
+    return datetime.now() + timedelta(days=180)
+
 
 class Card(models.Model):
     """Model representing a specific loyalty card."""
@@ -15,9 +20,12 @@ class Card(models.Model):
     )
     
     issued = models.DateTimeField(auto_now_add=True)
-    expires = models.DateTimeField(null=True, blank=True)
+    expires = models.DateTimeField(default=default_expiry)
     last_used = models.DateTimeField(null=True, blank=True)
-    amount = models.FloatField(
+    
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
         default=0,
         help_text="The amount of bonus points granted to a customer"
     )
@@ -32,7 +40,7 @@ class Card(models.Model):
         max_length=1,
         choices=CARD_STATUS,
         blank=True,
-        default='n',
+        default='a',
         help_text="Status of the card",
     )
     
@@ -55,3 +63,17 @@ class Card(models.Model):
         """Returns the URL to access a particular card instance."""
         return reverse('card-detail', args=[str(self.id_number)])
 
+
+class Purchase(models.Model):
+    card = models.ForeignKey(Card, related_name='purchases', on_delete=models.CASCADE)
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        help_text="The amount of bonus points granted to a customer"
+    )
+    
+    def __str__(self):
+        return f"Purchase on {self.purchase_date} for {self.amount}"
