@@ -7,7 +7,6 @@ class CardSearchForm(forms.Form):
         label='Series',
         widget=forms.TextInput(
             attrs={
-                'style': 'width: 300px;',
                 'class': 'form-control',
             }
         )
@@ -18,7 +17,6 @@ class CardSearchForm(forms.Form):
         label='Number',
         widget=forms.TextInput(
             attrs={
-                'style': 'width: 300px;',
                 'class': 'form-control',
             }
         )
@@ -30,7 +28,6 @@ class CardSearchForm(forms.Form):
         label='Status',
         widget=forms.Select(
             attrs={
-                'style': 'width: 300px;',
                 'class': 'form-control',
             }
         )
@@ -41,7 +38,6 @@ class CardSearchForm(forms.Form):
         label='Issued',
         widget=forms.SelectDateWidget(
             attrs={
-                'style': 'width: 300px;',
                 'class': 'form-control',
             }
         )
@@ -52,7 +48,6 @@ class CardSearchForm(forms.Form):
         label='Expires',
         widget=forms.SelectDateWidget(
             attrs={
-                'style': 'width: 300px;',
                 'class': 'form-control',
             }
         )

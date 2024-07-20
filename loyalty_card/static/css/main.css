@@ -11,6 +11,14 @@ th, td {
   vertical-align: middle;
 }
 
+.search-form tr:nth-child(odd) {
+  background-color: #d1e8f5;
+}
+
+.search-form th {
+  padding-left: 8px;
+}
+
 span {
   font-weight: bold;
 }
