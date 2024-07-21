@@ -2,10 +2,12 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import Card, Purchase
 from .forms import CardSearchForm, ActivateForm
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -46,9 +48,10 @@ class CardListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class CardDetailView(LoginRequiredMixin, generic.DetailView):
+class CardDetailView(PermissionRequiredMixin, generic.DetailView):
     """Class-based view for the specific card."""
     model = Card
+    permission_required = 'card_manager.change_card'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,6 +86,21 @@ class CardDetailView(LoginRequiredMixin, generic.DetailView):
         card.status = 'n'
         card.save()
         return redirect('card-detail', pk=card.pk)
+
+
+class CardDelete(PermissionRequiredMixin, generic.edit.DeleteView):
+    model = Card
+    success_url = reverse_lazy('card-list')
+    permission_required = 'card_manager.delete_card'
+
+    def form_valid(self, form):
+        try:
+            self.object.delete()
+            return HttpResponseRedirect(self.success_url)
+        except Exception as e:
+            return HttpResponseRedirect(
+                reverse("card-delete", kwargs={"pk": self.object.pk})
+            )
 
 
 @login_required

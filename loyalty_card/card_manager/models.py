@@ -78,3 +78,4 @@ class Purchase(models.Model):
     
     def __str__(self):
         return f"Purchase on {self.purchase_date} for {self.amount}"
+

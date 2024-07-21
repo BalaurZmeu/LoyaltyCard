@@ -14,7 +14,7 @@
     {% endif %}
   </form>
 
-  <button class="btn btn-outline-primary mt-3 mng-card">Delete card</button>
+  <a class="btn btn-outline-primary mt-3 mng-card" href="{% url 'card-delete' card.pk %}">Delete card</a>
 
   <table class="mt-4">
     <tr {% if card.status == 'e' %}

@@ -63,10 +63,10 @@ class ActivateForm(forms.Form):
             ('12', '12 months'),
         ],
         required=False,
-        label='Expiration date',
+        label='New activation period',
         widget=forms.Select(
             attrs={
-                'style': 'width: 150px;',
+                'style': 'width: 160px;',
                 'class': 'form-control',
             }
         )
