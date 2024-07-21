@@ -4,13 +4,19 @@
 
 {% block content %}
   <h1>Card: {{ card }}</h1>
-  {% if card.status == 'n' or card.status == 'e' %}
-    <button class="btn btn-outline-primary">Activate</button> 1m / 6m / 12m
-  {% else %}
-    <a class="btn btn-outline-primary" href="{% url 'deactivate' card.pk %}">Deactivate</a>
-  {% endif %}
-    <button class="btn btn-outline-primary">Delete</button>
-  <table>
+  <form method="post" action="{% url 'card-detail' card.pk %}">
+    {% csrf_token %}
+    {% if card.status == 'e' or card.status == 'n' %}
+      {{ form.as_p }}
+      <button type="submit" name="activate" class="btn btn-outline-primary mng-card">Activate card</button>
+    {% else %}
+      <button type="submit" name="deactivate" class="btn btn-outline-primary mng-card">Deactivate card</button>
+    {% endif %}
+  </form>
+
+  <button class="btn btn-outline-primary mt-3 mng-card">Delete card</button>
+
+  <table class="mt-4">
     <tr {% if card.status == 'e' %}
               class="expired"
             {% elif card.status == 'n' %}
@@ -21,7 +27,7 @@
     <tr><th>Last usage:</th> <td>{{ card.last_used }}</td></tr>
     <tr><th>Amount:</th> <td>{{ card.amount }}</td></tr>
   </table>
-  
+
   <div class="mt-4">
     <h4>Purchase History:</h4>
     {% if purchase_list %}

@@ -11,6 +11,18 @@ th, td {
   vertical-align: middle;
 }
 
+.expired {
+  background-color: #ffaaaa;
+}
+
+.not-active {
+  background-color: #ffff80;
+}
+
+.mng-card {
+  width: 150px;
+}
+
 .search-form tr:nth-child(odd) {
   background-color: #d1e8f5;
 }
@@ -43,6 +55,14 @@ span {
   background-color: #d1e8f5;
 }
 
+.resp tbody tr.expired {
+  background-color: #ffaaaa !important;
+}
+
+.resp tbody tr.not-active {
+  background-color: #ffff80 !important;
+}
+
 @media (max-width: 1000px) {
 
 .resp thead {
@@ -70,13 +90,5 @@ span {
   font-weight: bold;
   text-align: left;
 }
-}
-
-.expired {
-  background-color: #ffaaaa;
-}
-
-.not-active {
-  background-color: #ffff80;
 }
 

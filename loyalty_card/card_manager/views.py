@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Card, Purchase
-from .forms import CardSearchForm
+from .forms import CardSearchForm, ActivateForm
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 
 def index(request):
@@ -51,16 +53,36 @@ class CardDetailView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['purchase_list'] = Purchase.objects.filter(card=self.object)
+        context['form'] = ActivateForm(self.request.POST)
         return context
 
+    def post(self, request, *args, **kwargs):
+        if 'activate' in request.POST:
+            return self.activate(request, *args, **kwargs)
+        elif 'deactivate' in request.POST:
+            return self.deactivate(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
-@login_required
-def deactivate(request, pk):
-    """Deactivate card."""
-    card = get_object_or_404(Card, pk=pk)
-    card.status = 'n'
-    card.save()
-    return redirect('card-detail', pk=pk)
+    def activate(self, request, *args, **kwargs):
+        card = self.get_object()
+        form = ActivateForm(request.POST)
+        if form.is_valid():
+            expires_choice = form.cleaned_data['expires']
+            if expires_choice == '1':
+                card.expires = timezone.make_aware(datetime.now() + timedelta(days=30))
+            elif expires_choice == '6':
+                card.expires = timezone.make_aware(datetime.now() + timedelta(days=180))
+            elif expires_choice == '12':
+                card.expires = timezone.make_aware(datetime.now() + timedelta(days=365))
+            card.status = 'a'
+            card.save()
+        return redirect('card-detail', pk=card.pk)
+
+    def deactivate(self, request, *args, **kwargs):
+        card = self.get_object()
+        card.status = 'n'
+        card.save()
+        return redirect('card-detail', pk=card.pk)
 
 
 @login_required

@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('cardlist/', views.CardListView.as_view(), name='card-list'),
     path('card/<int:pk>', views.CardDetailView.as_view(), name='card-detail'),
+    path('card/<int:pk>/activate/', views.CardDetailView.as_view(), name='card-activate'),
+    path('card/<int:pk>/deactivate/', views.CardDetailView.as_view(), name='card-deactivate'),
     path('generator/', views.generator, name='generator'),
-    
-    path('deactivate/<int:pk>', views.deactivate, name='deactivate'),
 ]

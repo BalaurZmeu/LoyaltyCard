@@ -1,6 +1,7 @@
 from django import forms
 from .models import Card
 
+
 class CardSearchForm(forms.Form):
     series = forms.CharField(
         required=False, 
@@ -48,6 +49,24 @@ class CardSearchForm(forms.Form):
         label='Expires',
         widget=forms.SelectDateWidget(
             attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+
+class ActivateForm(forms.Form):
+    expires = forms.ChoiceField(
+        choices=[
+            ('1', '1 month'),
+            ('6', '6 months'),
+            ('12', '12 months'),
+        ],
+        required=False,
+        label='Expiration date',
+        widget=forms.Select(
+            attrs={
+                'style': 'width: 150px;',
                 'class': 'form-control',
             }
         )
