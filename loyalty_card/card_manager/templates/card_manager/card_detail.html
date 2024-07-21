@@ -4,14 +4,18 @@
 
 {% block content %}
   <h1>Card: {{ card }}</h1>
-  {% if card.check_if_expired or card.status == 'n' %}
+  {% if card.status == 'n' or card.status == 'e' %}
     <button class="btn btn-outline-primary">Activate</button> 1m / 6m / 12m
   {% else %}
-    <button class="btn btn-outline-primary">Deactivate</button>
+    <a class="btn btn-outline-primary" href="{% url 'deactivate' card.pk %}">Deactivate</a>
   {% endif %}
     <button class="btn btn-outline-primary">Delete</button>
   <table>
-    <tr><th>Status:</th> <td>{{ card.get_status_display }}</td></tr>
+    <tr {% if card.status == 'e' %}
+              class="expired"
+            {% elif card.status == 'n' %}
+              class="not-active"
+            {% endif %}><th>Status:</th> <td>{{ card.get_status_display }}</td></tr>
     <tr><th>Issued:</th> <td>{{ card.issued }}</td></tr>
     <tr><th>Expires:</th> <td>{{ card.expires }}</td></tr>
     <tr><th>Last usage:</th> <td>{{ card.last_used }}</td></tr>

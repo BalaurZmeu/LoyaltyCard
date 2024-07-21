@@ -71,3 +71,12 @@ span {
   text-align: left;
 }
 }
+
+.expired {
+  background-color: #ffaaaa;
+}
+
+.not-active {
+  background-color: #ffff80;
+}
+

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Card, Purchase
 from .forms import CardSearchForm
 from django.views import generic
@@ -32,6 +32,10 @@ class CardListView(LoginRequiredMixin, generic.ListView):
                 queryset = queryset.filter(expires__date=form.cleaned_data['expires'])
             if form.cleaned_data['status']:
                 queryset = queryset.filter(status=form.cleaned_data['status'])
+        
+        for card in queryset:
+            card.check_if_expired()
+        
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -48,6 +52,15 @@ class CardDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['purchase_list'] = Purchase.objects.filter(card=self.object)
         return context
+
+
+@login_required
+def deactivate(request, pk):
+    """Deactivate card."""
+    card = get_object_or_404(Card, pk=pk)
+    card.status = 'n'
+    card.save()
+    return redirect('card-detail', pk=pk)
 
 
 @login_required

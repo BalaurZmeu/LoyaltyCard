@@ -2,10 +2,11 @@ from django.db import models
 from datetime import datetime, timedelta
 from django.urls import reverse
 from .utils import generate_series, generate_id
+from django.utils import timezone
 
 
 def default_expiry():
-    return datetime.now() + timedelta(days=180)
+    return timezone.make_aware(datetime.now() + timedelta(days=180))
 
 
 class Card(models.Model):
@@ -54,7 +55,7 @@ class Card(models.Model):
     def check_if_expired(self):
         """Determines if the card is expired based on expiration date and current date.
         If card is expired, changes the status of the card to 'expired' and returns True."""
-        if self.expires and datetime.now() > self.expires:
+        if self.expires and timezone.now() > self.expires:
             self.status = 'e'
             self.save()
         return self.status == 'e'

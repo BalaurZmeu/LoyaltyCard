@@ -49,7 +49,11 @@
       <tbody>
       
       {% for card in card_list %}
-        <tr>  
+        <tr {% if card.status == 'e' %}
+              class="expired"
+            {% elif card.status == 'n' %}
+              class="not-active"
+            {% endif %}>
           <td data-label="Series/Number:"><a href="{{ card.get_absolute_url }}">{{ card }}</a></td>
           <td data-label="Issued:">{{ card.issued }}</td>
           <td data-label="Expires:">{{ card.expires }}</td>
