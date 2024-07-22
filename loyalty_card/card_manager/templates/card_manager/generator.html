@@ -4,13 +4,12 @@
 
 {% block content %}
 
-<form action="" method="post">
-  <input list="expiration">
-  <datalist id="expiration">
-    <option value="1 month">
-    <option value="6 months">
-    <option value="12 months">
-  </datalist>
-</form> 
+<h2>Card Generator</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Generate</button>
+</form>
 
 {% endblock %}
