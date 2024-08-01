@@ -73,12 +73,8 @@ class CardDetailView(PermissionRequiredMixin, generic.DetailView):
         form = ActivateForm(request.POST)
         if form.is_valid():
             expires_choice = form.cleaned_data['expires']
-            if expires_choice == '1':
-                card.expires = timezone.make_aware(datetime.now() + timedelta(days=30))
-            elif expires_choice == '6':
-                card.expires = timezone.make_aware(datetime.now() + timedelta(days=180))
-            elif expires_choice == '12':
-                card.expires = timezone.make_aware(datetime.now() + timedelta(days=365))
+            card.expires = timezone.make_aware(
+                datetime.now() + timedelta(days=int(expires_choice)))
             card.status = 'a'
             card.save()
         return redirect('card-detail', pk=card.pk)
@@ -106,6 +102,7 @@ class CardDelete(PermissionRequiredMixin, generic.edit.DeleteView):
 
 
 class CardGeneratorView(SuccessMessageMixin, PermissionRequiredMixin, generic.edit.FormView):
+    """Class-based view for the card generator."""
     template_name = 'card_manager/generator.html'
     form_class = CardGeneratorForm
     permission_required = 'card_manager.add_card'
@@ -115,27 +112,17 @@ class CardGeneratorView(SuccessMessageMixin, PermissionRequiredMixin, generic.ed
         new_series = form.cleaned_data['series']
         expires_choice = form.cleaned_data['expires']
         number_of_cards = form.cleaned_data['quantity']
-        
         self.generate_cards(new_series, expires_choice, number_of_cards)
-        
         messages.success(self.request, f'Successfully generated {number_of_cards} cards.')
-        
         return super().form_valid(form)
 
     def generate_cards(self, new_series, expires_choice, number_of_cards):
+        exp_date = timezone.make_aware(
+            datetime.now() + timedelta(days=int(expires_choice)))
         for i in range(number_of_cards):
-            if expires_choice == '1':
-                exp_date = timezone.make_aware(datetime.now() + timedelta(days=30))
-            elif expires_choice == '6':
-                exp_date = timezone.make_aware(datetime.now() + timedelta(days=180))
-            elif expires_choice == '12':
-                exp_date = timezone.make_aware(datetime.now() + timedelta(days=365))
-            
             card = Card.objects.create(
                 series = new_series,
-                expires = exp_date,
-            )
-            
+                expires = exp_date)
             card.save()
 
 
